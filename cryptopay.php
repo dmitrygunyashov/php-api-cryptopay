@@ -3,8 +3,8 @@
 /* Class */
 class Cryptopay
 {
-	static $url       = 'https://cryptopay.me/api/v1';
-	static $version   = '1.0';
+	const URL       = 'https://cryptopay.me/api/v1';
+	const VERSION   = '1.0';
 	private $api_key;
 
 	function Cryptopay ($key)
@@ -33,11 +33,11 @@ class Cryptopay
 				throw new Exception('Module CURL is not initialized');
 			}
 
-			curl_setopt($curl, CURLOPT_URL, self::$url . $url);
+			curl_setopt($curl, CURLOPT_URL, self::URL . $url);
 			curl_setopt($curl, CURLOPT_POST, true);
 			curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($curl, CURLOPT_USERAGENT, 'Cryptopay PHP API Client '. self::$version);
+			curl_setopt($curl, CURLOPT_USERAGENT, 'Cryptopay PHP API Client '. self::VERSION);
 
 			if (!$out = curl_exec($curl))
 			{

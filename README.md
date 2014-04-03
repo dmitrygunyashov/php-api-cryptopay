@@ -17,11 +17,13 @@ PHP API Client for Cryptopay
 Пример использования
 ====================
 
-`require_once ('cryptopay.php');
+```php
+require_once ('cryptopay.php');
 $data = array(
 	'price'				=> 1000.00,
 	'currency'			=> 'GBP',
 );
 
 $api = new Cryptopay('api_key');
-$result = $api->invoice($data);`
+$result = $api->invoice($data);
+```

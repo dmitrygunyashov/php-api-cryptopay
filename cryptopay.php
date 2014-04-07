@@ -12,19 +12,23 @@ class Cryptopay
 		$this->api_key = $key;
 	}
 
-	private function request ($method, $url, $data)
+	private function request ($method, $url, $data = array())
 	{
-		if (isset($data['callback_params']))
+		if (!empty($data))
 		{
-			foreach($data['callback_params'] AS $name => $value)
+			if (isset($data['callback_params']))
 			{
-				$data["callback_params[$name]"] = $value;
+				foreach($data['callback_params'] AS $name => $value)
+				{
+					$data["callback_params[$name]"] = $value;
+				}
+
+				unset($data['callback_params']);
 			}
 
-			unset($data['callback_params']);
+			$data['api_key'] = $this->api_key;
+			$data = http_build_query($data);
 		}
-
-		$data['api_key'] = $this->api_key;
 
 		try
 		{
@@ -34,8 +38,13 @@ class Cryptopay
 			}
 
 			curl_setopt($curl, CURLOPT_URL, self::URL . $url);
-			curl_setopt($curl, CURLOPT_POST, true);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+			if ($method === 'POST')
+			{
+				curl_setopt($curl, CURLOPT_POST, true);
+				curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+			}
+
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($curl, CURLOPT_USERAGENT, 'Cryptopay PHP API Client '. self::VERSION);
 
@@ -72,5 +81,27 @@ class Cryptopay
 	public function invoice ($data)
 	{
 		return $this->request('POST', '/invoices', $data);
+	}
+
+	public function button ($data, $name = '')
+	{
+		$button_data = $this->request('POST', '/buttons', $data);
+
+		if($name == '') $name = '<img src="https://cryptopay.me/assets/pay-btns/btn-sm-green.png">';
+
+		$button = '<a data-cryptopay-token="'. $button_data['token'] .'" href="#">'. $name .'</a><script src="https://cryptopay.me/assets/button.js"></script>';
+
+		return $button;
+	}
+
+	public function hosted ($data)
+	{
+		$hosted = $this->request('POST', '/hosted', $data);
+		return $hosted['url'];
+	}
+
+	public function rate ()
+	{
+		return $this->request('GET', '/cryptopay_rate');
 	}
 }

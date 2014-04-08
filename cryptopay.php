@@ -7,7 +7,7 @@ class Cryptopay
 	const VERSION   = '1.0';
 	private $api_key;
 
-	function Cryptopay ($key)
+	function __construct($key)
 	{
 		$this->api_key = $key;
 	}

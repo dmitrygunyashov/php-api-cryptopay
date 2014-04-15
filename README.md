@@ -14,7 +14,7 @@ PHP API Client for Cryptopay
 2. Заходим на сайте cryptopay.me в Account -> Settings
 3. Генерируем и копируем API key
 
-Invoices
+Invoice
 ====================
 
 ```php

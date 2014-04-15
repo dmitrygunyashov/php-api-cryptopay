@@ -100,8 +100,42 @@ class Cryptopay
 		return $hosted['url'];
 	}
 
+	public function invoices ()
+	{
+		return $this->request('GET', '/invoices?api_key='. $this->api_key);
+	}
+
 	public function rate ()
 	{
 		return $this->request('GET', '/cryptopay_rate');
+	}
+
+	public function validate_hash ($data)
+	{
+		$required_parameters = array('uuid', 'price', 'currency');
+
+		try
+		{
+			$errors = array();
+			foreach($required_parameters AS $parameter)
+			{
+				if(!array_key_exists($parameter, $data))
+				{
+					$errors[] = 'Not passed as parameter: '. $parameter;
+				}
+			}
+
+			if (!empty($errors)) throw new Exception(implode("\n", $errors));
+
+			$price_cents = $data['price'] * 100;
+			$validate_str = "{$this->api_key}_{$data['uuid']}_$price_cents{$data['currency']}";
+
+			$result = sha1($validate_str);
+		}
+		catch (Exception $e)
+		{
+			$result = $e->getMessage();
+		}
+		return $result;
 	}
 }

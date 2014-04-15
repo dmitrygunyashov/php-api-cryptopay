@@ -90,3 +90,26 @@ require_once ('cryptopay.php');
 $api = new Cryptopay('api_key');
 $rate = $api->rate();
 ```
+
+Invoices List
+====================
+
+```php
+require_once ('cryptopay.php');
+$api = new Cryptopay('api_key');
+$rate = $api->invoices();
+```
+
+Validate Hash
+====================
+
+```php
+require_once ('cryptopay.php');
+$validate_hash_data = array(
+	'uuid'		=> 'f777b0da-54e1-4880-9318-7fde7e6b09e',
+	'price'		=> 2.00,
+	'currency'	=> 'EUR',
+);
+$api = new Cryptopay('api_key');
+$rate = $api->validate_hash($validate_hash_data);
+```

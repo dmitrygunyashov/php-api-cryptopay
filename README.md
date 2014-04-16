@@ -1,18 +1,16 @@
 PHP API Client for Cryptopay
 ====================
 
-Описание
+Description
 ====================
 
-Клиент на PHP для работы с cryptopay.me API.
-Документация по API: https://cryptopay.me/api
+PHP Sample library to work cryptopay.me API
 
-Установка
+Installation
 ====================
 
-1. Копируем и подключаем cryptopay.php к себе в проект
-2. Заходим на сайте cryptopay.me в Account -> Settings
-3. Генерируем и копируем API key
+1. Copy and require cryptopay.php into your project
+2. Get a API key at cryptopay.me в Account -> Settings
 
 Invoice
 ====================
